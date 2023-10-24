@@ -1,0 +1,16 @@
+.table-secondary{
+    background-color: aliceblue;
+}
+.w-80{
+    width: 90%;
+}
+.container{
+    width: 100%;
+    display:flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: center;
+}
+.w-60{
+    width:60%;
+}
