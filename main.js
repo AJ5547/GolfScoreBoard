@@ -2,13 +2,15 @@
 var courses;
 var teeBoxes;
 var golfCourseId;
+let holeInfo;
 
 // Function to get available golf courses
 function getAvailableGolfCourses() {
-  return fetch("https://exquisite-pastelito-9d4dd1.netlify.app/golfapi/courses.json")
-    .then(function (response) {
-      return response.json();
-    });
+  return fetch(
+    "https://exquisite-pastelito-9d4dd1.netlify.app/golfapi/courses.json"
+  ).then(function (response) {
+    return response.json();
+  });
 }
 
 // Class definition for Player
@@ -50,10 +52,11 @@ function addPlayer() {
 
 // Function to get golf course details
 function getGolfCourseDetails(golfCourseId) {
-  return fetch(`https://exquisite-pastelito-9d4dd1.netlify.app/golfapi/course${golfCourseId}.json`)
-    .then(function (response) {
-      return response.json();
-    });
+  return fetch(
+    `https://exquisite-pastelito-9d4dd1.netlify.app/golfapi/course${golfCourseId}.json`
+  ).then(function (response) {
+    return response.json();
+  });
 }
 
 // Function to load golf course data and populate the UI
@@ -78,46 +81,40 @@ function load() {
       // Show Holes on Scorecard
       let hole = courseDetails.holes;
       let holes = "";
+
       console.log(hole);
       for (let i = 0; i < 9; i++) {
         if (hole[i]) {
-          holes += `<th>${hole[i].hole}</th>`; // Use hole[i] to access the specific hole
+          holes += `<th>${hole[i].hole}</th>`;
         }
       }
       let secondHoles = "";
+      secondYards = "";
       let i = 7;
-      while( i > 8, i < 17){
+      while ((i > 8, i < 17)) {
         i++;
-        console.log("test")
-          secondHoles += `<th>${hole[i].hole}</th>`
-      }
-      for (let i = 0; i > 8; i ++) {
-        if(hole[i]){
-          console.log("test")
-          secondHoles += `<th colspan="1">${hole[i].hole}</th>`
-        }
+        secondHoles += `<th>${hole[i].hole}</th>`;
       }
 
-      document.getElementById("firstNumbers").innerHTML = `<th colspan="2">Hole</th>` + holes + `<th> Out </th>`;
-      document.getElementById("secondNumbers").innerHTML = `<th colspan="2"> Hole </th>` + secondHoles + `<th> Total </th>`
+      document.getElementById("firstNumbers").innerHTML =
+        `<th colspan="2">Hole</th>` + holes + `<th> Out </th>`;
+      document.getElementById("secondNumbers").innerHTML =
+        `<th colspan="2"> Hole </th>` + secondHoles + `<th> Total </th>`;
 
       // Teeboxes input
       teeBoxes = hole[0].teeBoxes;
-      console.log(teeBoxes);
 
       let teeBoxSelectHtml = "";
 
       teeBoxes.forEach((teeBox, index) => {
-        teeBoxSelectHtml += `<option value="${index}">${teeBox.teeType.toUpperCase()}</option>`;
+        teeBoxSelectHtml += `<option id="${
+          teeBox.teeTypeId
+        }" value="${index}">${teeBox.teeType.toUpperCase()}</option>`;
       });
 
-      let teeboxSelections = document.getElementById("tee-box-select");
       document.getElementById("tee-box-select").innerHTML = teeBoxSelectHtml;
 
       // Yardage and Par for each on scoreboard
-      teeboxSelections.addEventListener("change", (e) => {
-        console.log("selctions " + teeboxSelections.value);
-      });
     });
   });
 }
