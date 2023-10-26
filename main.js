@@ -117,13 +117,12 @@ function render() {
       document.getElementById("tee-box-select").innerHTML =
         '<option value="none"> --Choose your Tee -- </option>' +
         teeBoxSelectHtml;
-      //TODO Get parTeeBox to go off of what user sets the teeBox to using teeTypeid of the teebox
       // Yardage and Par for each on scoreboard
       const teeBoxDetail = document.getElementById("tee-box-select");
-      //yards
+    
       teeBoxDetail.addEventListener("change", (e) => {
         let teeboxIndex = teeBoxDetail.value;
-        
+          //YARDS
           let frontYards = "";
           let i = -1;
 
@@ -148,6 +147,31 @@ function render() {
           document.getElementById("backYardage").innerHTML =
             "<th colspan='2'> Yardage </th>" + backYards;
         
+        //Par
+        let frontPar = "";
+        let a = -1;
+
+        while (a < 8) {
+          a++;
+          let individualHoles = courseDetails.holes[a];
+          let pullTeeBoxesIndex = individualHoles.teeBoxes[teeboxIndex];
+          par = pullTeeBoxesIndex.par;
+          frontPar += `<td> ${par} </td>`;
+        }
+        let backPar = "";
+        let c = 8;
+        while ((c >= 8, c < 17)) {
+          c++;
+          let individualHoles = courseDetails.holes[c];
+          let pullTeeBoxesIndex = individualHoles.teeBoxes[teeboxIndex];
+          par = pullTeeBoxesIndex.par;
+          backPar += `<td> ${par} </td>`;
+        }
+        document.getElementById("parFront").innerHTML =
+          "<th colspan='2'> Par </th>" + frontPar;
+        document.getElementById("parBack").innerHTML =
+          "<th colspan='2'> Par </th>" + backPar;
+      
       });
     });
   });
