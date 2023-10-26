@@ -2,7 +2,9 @@
 var courses;
 var teeBoxes;
 var golfCourseId;
-let holeInfo;
+var yards;
+var par;
+var pullTeeBoxesIndex;
 
 // Function to get available golf courses
 function getAvailableGolfCourses() {
@@ -60,7 +62,7 @@ function getGolfCourseDetails(golfCourseId) {
 }
 
 // Function to load golf course data and populate the UI
-function load() {
+function render() {
   getAvailableGolfCourses().then((result) => {
     courses = result;
     let courseOptionsHtml = "";
@@ -69,19 +71,20 @@ function load() {
       courseOptionsHtml += `<option value="${course.id}">${course.name}</option>`;
     });
 
-    document.getElementById("course-select").innerHTML = courseOptionsHtml;
+    document.getElementById("course-select").innerHTML =
+      '<option value="choose"> --Choose Your Course-- </option>' +
+      courseOptionsHtml;
     golfCourseId = courses.id;
   });
 
   const courseSelect = document.getElementById("course-select");
-  courseSelect.addEventListener("change", function () {
+  courseSelect.addEventListener("click", function () {
     const selectedCourseId = courseSelect.value;
 
     getGolfCourseDetails(selectedCourseId).then((courseDetails) => {
       // Show Holes on Scorecard
       let hole = courseDetails.holes;
       let holes = "";
-
       console.log(hole);
       for (let i = 0; i < 9; i++) {
         if (hole[i]) {
@@ -89,9 +92,8 @@ function load() {
         }
       }
       let secondHoles = "";
-      secondYards = "";
-      let i = 7;
-      while ((i > 8, i < 17)) {
+      let i = 8;
+      while ((i >= 8, i < 17)) {
         i++;
         secondHoles += `<th>${hole[i].hole}</th>`;
       }
@@ -112,15 +114,46 @@ function load() {
         }" value="${index}">${teeBox.teeType.toUpperCase()}</option>`;
       });
 
-      document.getElementById("tee-box-select").innerHTML = teeBoxSelectHtml;
-
+      document.getElementById("tee-box-select").innerHTML =
+        '<option value="none"> --Choose your Tee -- </option>' +
+        teeBoxSelectHtml;
+      //TODO Get parTeeBox to go off of what user sets the teeBox to using teeTypeid of the teebox
       // Yardage and Par for each on scoreboard
+      const teeBoxDetail = document.getElementById("tee-box-select");
+      //yards
+      teeBoxDetail.addEventListener("change", (e) => {
+        let teeboxIndex = teeBoxDetail.value;
+        
+          let frontYards = "";
+          let i = -1;
+
+          while (i < 8) {
+            i++;
+            let individualHoles = courseDetails.holes[i];
+            let pullTeeBoxesIndex = individualHoles.teeBoxes[teeboxIndex];
+            yards = pullTeeBoxesIndex.yards;
+            frontYards += `<td> ${yards} </td>`;
+          }
+          let backYards = "";
+          let b = 8;
+          while ((b >= 8, b < 17)) {
+            b++;
+            let individualHoles = courseDetails.holes[b];
+            let pullTeeBoxesIndex = individualHoles.teeBoxes[teeboxIndex];
+            yards = pullTeeBoxesIndex.yards;
+            backYards += `<td> ${yards} </td>`;
+          }
+          document.getElementById("yardage").innerHTML =
+            "<th colspan='2'> Yardage </th>" + frontYards;
+          document.getElementById("backYardage").innerHTML =
+            "<th colspan='2'> Yardage </th>" + backYards;
+        
+      });
     });
   });
 }
 
 // Initial function call
-load();
+render();
 
 // TODO: local storage
-// 391 yards American Fork index=0, 521 index=1
