@@ -4,7 +4,22 @@ var teeBoxes;
 var golfCourseId;
 var yards;
 var par;
+var totalYards;
 var pullTeeBoxesIndex;
+var yardsArray = [];
+function start() {
+  // let courseSelector = "";
+  // courseSelector = `<div class="form-group">
+  // <label for="course-select">Select Course</label>
+  // <select class="form-control" id="course-select">
+  // </select>
+  // <select class="w-60 mt-3 form-control" id="tee-box-select"></select>
+  // <button class="w-25"onclick="save(), moveOn()">Move On</button>`
+  // document.getElementById("options-container").innerHTML = courseSelector;
+  // scoreboardHoleInfo();
+  // document.getElementById("startButton").innerHTML = " ";
+  // document.getElementById("rulesAndInstructions").innerHTML = " ";
+}
 
 // Function to get available golf courses
 function getAvailableGolfCourses() {
@@ -12,43 +27,6 @@ function getAvailableGolfCourses() {
     "https://exquisite-pastelito-9d4dd1.netlify.app/golfapi/courses.json"
   ).then(function (response) {
     return response.json();
-  });
-}
-
-// Class definition for Player
-class Player {
-  constructor(name, id, scores = []) {
-    this.name = name;
-    this.id = id;
-    this.scores = scores;
-  }
-}
-
-// Function to add a new player
-function addPlayer() {
-  let nameInput = document.createElement("input");
-  nameInput.id = "playerName";
-  nameInput.type = "text";
-  nameInput.className = "w-25";
-  nameInput.placeholder = "your name";
-  document.getElementById("nameInputHere").appendChild(nameInput);
-
-  nameInput.addEventListener("keydown", (e) => {
-    if (e.key == "Enter") {
-      const uniqueId = new Date().getTime().toString();
-      let playerName = nameInput.value;
-      console.log(playerName);
-      document.getElementById("nameInputHere").innerHTML = " ";
-
-      var newPlayer = new Player(playerName, uniqueId);
-      console.log(newPlayer);
-
-      let nextPlayer = "";
-      nextPlayer += `<tr> <th colspan="2" id="${uniqueId}">${playerName}</th> <td> 0<td> </tr>`;
-      document.getElementById("scorecardBody").innerHTML += nextPlayer;
-
-      document.getElementById("scorecardBodyBack").innerHTML += nextPlayer;
-    }
   });
 }
 
@@ -62,7 +40,7 @@ function getGolfCourseDetails(golfCourseId) {
 }
 
 // Function to load golf course data and populate the UI
-function render() {
+function scoreboardHoleInfo() {
   getAvailableGolfCourses().then((result) => {
     courses = result;
     let courseOptionsHtml = "";
@@ -119,34 +97,36 @@ function render() {
         teeBoxSelectHtml;
       // Yardage and Par for each on scoreboard
       const teeBoxDetail = document.getElementById("tee-box-select");
-    
+
       teeBoxDetail.addEventListener("change", (e) => {
         let teeboxIndex = teeBoxDetail.value;
-          //YARDS
-          let frontYards = "";
-          let i = -1;
+        //YARDS
+        let frontYards = "";
+        let i = -1;
 
-          while (i < 8) {
-            i++;
-            let individualHoles = courseDetails.holes[i];
-            let pullTeeBoxesIndex = individualHoles.teeBoxes[teeboxIndex];
-            yards = pullTeeBoxesIndex.yards;
-            frontYards += `<td> ${yards} </td>`;
-          }
-          let backYards = "";
-          let b = 8;
-          while ((b >= 8, b < 17)) {
-            b++;
-            let individualHoles = courseDetails.holes[b];
-            let pullTeeBoxesIndex = individualHoles.teeBoxes[teeboxIndex];
-            yards = pullTeeBoxesIndex.yards;
-            backYards += `<td> ${yards} </td>`;
-          }
-          document.getElementById("yardage").innerHTML =
-            "<th colspan='2'> Yardage </th>" + frontYards;
-          document.getElementById("backYardage").innerHTML =
-            "<th colspan='2'> Yardage </th>" + backYards;
-        
+        while (i < 8) {
+          i++;
+          let individualHoles = courseDetails.holes[i];
+          let pullTeeBoxesIndex = individualHoles.teeBoxes[teeboxIndex];
+          yards = pullTeeBoxesIndex.yards;
+          frontYards += `<td> ${yards} </td>`;
+        }
+        let backYards = "";
+        let totalYards = "";
+        let b = 8;
+        while ((b >= 8, b < 17)) {
+          b++;
+          let individualHoles = courseDetails.holes[b];
+          let pullTeeBoxesIndex = individualHoles.teeBoxes[teeboxIndex];
+          yards = pullTeeBoxesIndex.yards;
+          backYards += `<td> ${yards} </td>`;
+          total = `<td> ${totalYards} </td>`;
+        }
+        document.getElementById("yardage").innerHTML =
+          "<th colspan='2'> Yardage </th>" + frontYards;
+        document.getElementById("backYardage").innerHTML =
+          "<th colspan='2'> Yardage </th>" + backYards;
+
         //Par
         let frontPar = "";
         let a = -1;
@@ -165,19 +145,22 @@ function render() {
           let individualHoles = courseDetails.holes[c];
           let pullTeeBoxesIndex = individualHoles.teeBoxes[teeboxIndex];
           par = pullTeeBoxesIndex.par;
+
           backPar += `<td> ${par} </td>`;
         }
         document.getElementById("parFront").innerHTML =
           "<th colspan='2'> Par </th>" + frontPar;
         document.getElementById("parBack").innerHTML =
           "<th colspan='2'> Par </th>" + backPar;
-      
       });
     });
   });
 }
 
 // Initial function call
-render();
+scoreboardHoleInfo();
+function save() {
+  console.log("going to save");
+}
 
 // TODO: local storage

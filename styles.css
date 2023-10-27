@@ -1,30 +1,32 @@
-body{
-    color: #DAD7CD;
-    background-color:#3A5A40 ;
+body {
+  color: #dad7cd;
+  background-color: #3a5a40;
 }
-.table-secondary{
-    background-color: #344E41;
+.table-secondary {
+  background-color: #344e41;
 }
-.w-80{
-    width: 90%;
+.w-80 {
+  width: 90%;
 }
-#scorecardContainer{
-    background-color:#344E41 ;
-    width: 100%;
-    margin: 0;
-    padding: 10px;
-
+#scorecardContainer {
+  background-color: #344e41;
+  width: 100%;
+  margin: 0;
+  padding: 10px;
 }
-.table{
-    overflow-y: scroll;
+.table {
+  overflow-y: scroll;
 }
-.container{
-    width: 100%;
-    display:flex;
-    flex-flow: column nowrap;
-    align-items: center;
-    justify-content: center;
+.container {
+  width: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
 }
-.w-60{
-    width:70%;
+.w-60 {
+  width: 50%;
+}
+.w-2 {
+  width: 50px;
 }

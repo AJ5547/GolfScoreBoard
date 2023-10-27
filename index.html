@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Golf Scoreboard</title>
     <script defer src="main.js"></script>
+    <script defer src="player.js"></script>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -15,10 +16,19 @@
   </head>
 
   <body>
-    <div class="container w-100  h-100">
+    <div class="container w-100 h-100">
       <div class="row h-25">
         <div class="col-lg-12" id="header">
-          <h3> Golf Scoreboard</h3>
+          <h3>Golf Scoreboard</h3>
+          <!-- <div id="rulesAndInstructions">
+            <h6> Instructions</h6>
+            <ul>
+              <li> You will first choose which golf course you are at, and then choose your teebox</li>
+              <li> After this you will select the move on button, and pick the amount of players &#40;UP TO Four&#41; </li>
+              <li> You will add the names of the players, and clicck another start game button when ready.</li>
+            </ul>
+          </div>
+          <div id="startButton"><button onclick="start()"> Start Game</button></div> -->
         </div>
       </div>
       <div class="row h-25">
@@ -26,25 +36,26 @@
           <div id="options-container">
             <div class="form-group">
               <label for="course-select">Select Course</label>
-              <select class="form-control" id="course-select">
-              </select>
-              <select class="w-60 mt-3 form-control" id="tee-box-select"></select>
-              <button onclick="addPlayer()"> Add Player</button>
+              <select class="form-control" id="course-select"></select>
+              <select
+                class="w-60 mt-3 form-control"
+                id="tee-box-select"
+              ></select>
+              <button class="w-25" onclick="save(), moveOn()">Move On</button>
             </div>
-
           </div>
         </div>
       </div>
       <div class="row mt-4 pt-2 w-100 h-100" id="scorecardContainer">
         <div id="nameInputHere"></div>
-        <div class="col-lg-12  pt-3" id="scorecard">
-          <div class="table-responsive ">
+        <div class="col-lg-12 pt-3" id="scorecard">
+          <div class="table-responsive">
             <table id="Scoreboard" class="table table-bordered">
-              <thead id="firstNumbers">
-              </thead>
+              <thead id="firstNumbers"></thead>
               <tbody id="scorecardBody">
-              <tr id="yardage"></tr>
-              <tr id="parFront"></tr>
+                <tr id="yardage"></tr>
+                <tr id="parFront"></tr>
+                <tr id="playerOne"></tr>
               </tbody>
             </table>
           </div>
@@ -54,7 +65,7 @@
               <tbody id="scorecardBodyBack">
                 <tr id="backYardage"></tr>
                 <tr id="parBack"></tr>
-                </tbody>
+              </tbody>
             </table>
           </div>
         </div>
