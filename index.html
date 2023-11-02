@@ -34,15 +34,16 @@
       <div class="row h-25">
         <div class="col-lg-12">
           <div id="options-container">
-            <div class="form-group">
+            <div class="form-group" id="form-group">
               <label for="course-select">Select Course</label>
-              <select class="form-control" id="course-select"></select>
+              <select class="form-control" id="course-select" required></select>
               <select
                 class="w-60 mt-3 form-control"
                 id="tee-box-select"
+                required
               ></select>
-              <button class="w-25" onclick="save(), moveOn()">Move On</button>
             </div>
+            <button type="submit" id="save" onclick="save()">Save</button>
           </div>
         </div>
       </div>

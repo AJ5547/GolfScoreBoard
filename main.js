@@ -2,11 +2,12 @@
 var courses;
 var teeBoxes;
 var golfCourseId;
-var yards;
-var par;
-var totalYards;
+let yards = [];
+let par = [];
+var parSum;
+var sum;
+var sum2;
 var pullTeeBoxesIndex;
-var yardsArray = [];
 function start() {
   // let courseSelector = "";
   // courseSelector = `<div class="form-group">
@@ -41,6 +42,8 @@ function getGolfCourseDetails(golfCourseId) {
 
 // Function to load golf course data and populate the UI
 function scoreboardHoleInfo() {
+  const selectedCourseId = localStorage.getItem("selectedCourseId");
+  const selectedTeeBoxIndex = localStorage.getItem("selectedTeeBoxIndex");
   getAvailableGolfCourses().then((result) => {
     courses = result;
     let courseOptionsHtml = "";
@@ -103,29 +106,35 @@ function scoreboardHoleInfo() {
         //YARDS
         let frontYards = "";
         let i = -1;
-
+        sum = 0;
         while (i < 8) {
           i++;
           let individualHoles = courseDetails.holes[i];
           let pullTeeBoxesIndex = individualHoles.teeBoxes[teeboxIndex];
-          yards = pullTeeBoxesIndex.yards;
-          frontYards += `<td> ${yards} </td>`;
+          yards.push(pullTeeBoxesIndex.yards);
+          frontYards += `<td> ${yards[i]} </td>`;
+          sum += yards[i];
         }
+        console.log(sum);
         let backYards = "";
         let totalYards = "";
         let b = 8;
+        sum2 = 0;
         while ((b >= 8, b < 17)) {
           b++;
           let individualHoles = courseDetails.holes[b];
           let pullTeeBoxesIndex = individualHoles.teeBoxes[teeboxIndex];
-          yards = pullTeeBoxesIndex.yards;
-          backYards += `<td> ${yards} </td>`;
-          total = `<td> ${totalYards} </td>`;
+          yards.push(pullTeeBoxesIndex.yards);
+          backYards += `<td> ${yards[i]} </td>`;
+          sum2 += yards[b];
         }
+
         document.getElementById("yardage").innerHTML =
-          "<th colspan='2'> Yardage </th>" + frontYards;
+          "<th colspan='2'> Yardage </th>" + frontYards + `<td> ${sum} </td>`;
         document.getElementById("backYardage").innerHTML =
-          "<th colspan='2'> Yardage </th>" + backYards;
+          "<th colspan='2'> Yardage </th>" +
+          backYards +
+          `<td> ${sum + sum2} </td>`;
 
         //Par
         let frontPar = "";
@@ -135,8 +144,10 @@ function scoreboardHoleInfo() {
           a++;
           let individualHoles = courseDetails.holes[a];
           let pullTeeBoxesIndex = individualHoles.teeBoxes[teeboxIndex];
-          par = pullTeeBoxesIndex.par;
-          frontPar += `<td> ${par} </td>`;
+          par.push(pullTeeBoxesIndex.par);
+          frontPar += `<td> ${par[a]} </td>`;
+          parSum += par[a];
+          console.log(parSum);
         }
         let backPar = "";
         let c = 8;
@@ -144,9 +155,9 @@ function scoreboardHoleInfo() {
           c++;
           let individualHoles = courseDetails.holes[c];
           let pullTeeBoxesIndex = individualHoles.teeBoxes[teeboxIndex];
-          par = pullTeeBoxesIndex.par;
+          par.psuh(pullTeeBoxesIndex.par);
 
-          backPar += `<td> ${par} </td>`;
+          backPar += `<td> ${par[c]} </td>`;
         }
         document.getElementById("parFront").innerHTML =
           "<th colspan='2'> Par </th>" + frontPar;
@@ -161,6 +172,7 @@ function scoreboardHoleInfo() {
 scoreboardHoleInfo();
 function save() {
   console.log("going to save");
+  document.getElementById("form-group").innerHTML = "";
 }
 
 // TODO: local storage
