@@ -20,15 +20,6 @@
       <div class="row h-25">
         <div class="col-lg-12" id="header">
           <h3>Golf Scoreboard</h3>
-          <!-- <div id="rulesAndInstructions">
-            <h6> Instructions</h6>
-            <ul>
-              <li> You will first choose which golf course you are at, and then choose your teebox</li>
-              <li> After this you will select the move on button, and pick the amount of players &#40;UP TO Four&#41; </li>
-              <li> You will add the names of the players, and clicck another start game button when ready.</li>
-            </ul>
-          </div>
-          <div id="startButton"><button onclick="start()"> Start Game</button></div> -->
         </div>
       </div>
       <div class="row h-25">
@@ -43,12 +34,16 @@
                 required
               ></select>
             </div>
-            <button type="submit" id="save" onclick="save()">Save</button>
+            <div id="playerForms">
+              <input id="playerName" type="text" placeholder="player name" />
+            </div>
+
+            <button type="submit" onclick="addPlayer()">Add Player</button>
           </div>
         </div>
       </div>
       <div class="row mt-4 pt-2 w-100 h-100" id="scorecardContainer">
-        <div id="nameInputHere"></div>
+        <button type="submit" id="save" onclick="save()">Save</button>
         <div class="col-lg-12 pt-3" id="scorecard">
           <div class="table-responsive">
             <table id="Scoreboard" class="table table-bordered">
@@ -56,7 +51,6 @@
               <tbody id="scorecardBody">
                 <tr id="yardage"></tr>
                 <tr id="parFront"></tr>
-                <tr id="playerOne"></tr>
               </tbody>
             </table>
           </div>
@@ -66,6 +60,7 @@
               <tbody id="scorecardBodyBack">
                 <tr id="backYardage"></tr>
                 <tr id="parBack"></tr>
+                <tr id="playerOne"></tr>
               </tbody>
             </table>
           </div>

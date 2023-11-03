@@ -8,19 +8,9 @@ var parSum;
 var sum;
 var sum2;
 var pullTeeBoxesIndex;
-function start() {
-  // let courseSelector = "";
-  // courseSelector = `<div class="form-group">
-  // <label for="course-select">Select Course</label>
-  // <select class="form-control" id="course-select">
-  // </select>
-  // <select class="w-60 mt-3 form-control" id="tee-box-select"></select>
-  // <button class="w-25"onclick="save(), moveOn()">Move On</button>`
-  // document.getElementById("options-container").innerHTML = courseSelector;
-  // scoreboardHoleInfo();
-  // document.getElementById("startButton").innerHTML = " ";
-  // document.getElementById("rulesAndInstructions").innerHTML = " ";
-}
+var playerScore = [];
+var scoreSum;
+var scoreTwo;
 
 // Function to get available golf courses
 function getAvailableGolfCourses() {
@@ -117,7 +107,6 @@ function scoreboardHoleInfo() {
         }
         console.log(sum);
         let backYards = "";
-        let totalYards = "";
         let b = 8;
         sum2 = 0;
         while ((b >= 8, b < 17)) {
@@ -139,7 +128,7 @@ function scoreboardHoleInfo() {
         //Par
         let frontPar = "";
         let a = -1;
-
+        parSum = 0;
         while (a < 8) {
           a++;
           let individualHoles = courseDetails.holes[a];
@@ -147,27 +136,56 @@ function scoreboardHoleInfo() {
           par.push(pullTeeBoxesIndex.par);
           frontPar += `<td> ${par[a]} </td>`;
           parSum += par[a];
-          console.log(parSum);
         }
+        console.log(parSum);
         let backPar = "";
         let c = 8;
+        parSum2 = 0;
         while ((c >= 8, c < 17)) {
           c++;
           let individualHoles = courseDetails.holes[c];
           let pullTeeBoxesIndex = individualHoles.teeBoxes[teeboxIndex];
-          par.psuh(pullTeeBoxesIndex.par);
+          par.push(pullTeeBoxesIndex.par);
 
           backPar += `<td> ${par[c]} </td>`;
+          parSum2 += par[c];
         }
         document.getElementById("parFront").innerHTML =
-          "<th colspan='2'> Par </th>" + frontPar;
+          "<th colspan='2'> Par </th>" + frontPar + `<td> ${parSum} </td>`;
         document.getElementById("parBack").innerHTML =
-          "<th colspan='2'> Par </th>" + backPar;
+          "<th colspan='2'> Par </th>" +
+          backPar +
+          `<td> ${parSum + parSum2} </td>`;
       });
     });
   });
 }
+function renderPlayers() {
+  var scoreCardBodyElement = document.getElementById("scorecardBody");
+  var html = "";
+  let holeScore = "";
+  // remove player scores
+  Array.from(
+    scoreCardBodyElement.querySelectorAll('[data-row-type="playerScore"]')
+  ).forEach((el) => el.remove());
 
+  // add player scores
+  playerScore.forEach((player) => {
+    let i = 0;
+    while (i < 9) {
+      i++;
+
+      holeScore += `<td> ${player.scores[i]}</td> `;
+      scoreSum += player.scores[i];
+      console.log(scoreSum);
+    }
+    html += `<tr data-row-type="playerScore" class="playerRow" data-playerId="${player.id}"> <th colspan='2'>${player.name} </th>${holeScore} </tr>`;
+  });
+  // add html
+  document
+    .getElementById("scorecardBody")
+    .insertAdjacentHTML("beforeend", html);
+}
 // Initial function call
 scoreboardHoleInfo();
 function save() {
