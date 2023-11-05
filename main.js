@@ -168,17 +168,15 @@ function renderPlayers() {
   Array.from(
     scoreCardBodyElement.querySelectorAll('[data-row-type="playerScore"]')
   ).forEach((el) => el.remove());
-
+  let i = 0;
+  console.log(i);
   // add player scores
   playerScore.forEach((player) => {
-    let i = 0;
     while (i < 9) {
       i++;
-
-      holeScore += `<td> ${player.scores[i]}</td> `;
-      scoreSum += player.scores[i];
-      console.log(scoreSum);
+      holeScore += `<td><input id='${player.id[i]}' class="w-2 type="text" placeholder=" ${player.scores[i]}" /></td> `;
     }
+
     html += `<tr data-row-type="playerScore" class="playerRow" data-playerId="${player.id}"> <th colspan='2'>${player.name} </th>${holeScore} </tr>`;
   });
   // add html

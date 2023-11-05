@@ -1,7 +1,7 @@
 // Class definition for Player
 
 class Player {
-  constructor(name, id = getId(), scores = Array(18).fill(2)) {
+  constructor(name, id = getId(), scores = Array(18).fill(0)) {
     this.name = name;
     this.id = id;
     this.scores = scores;
